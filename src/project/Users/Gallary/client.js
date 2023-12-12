@@ -10,6 +10,11 @@ export const findAllGallaries = async () => {
     return response.data;
 };
 
+export const findOneGallery = async (gallaryID) => {
+  const response = await axios.get(`${GALLARIES_API}/${gallaryID}`);
+  return response.data;
+}
+
 export const createUserAddToGallary = async (userId, gallaryID, artworkID) => {
     const response = await axios.post(`${USERS_API}/${userId}/gallaries/${gallaryID}/${artworkID}`);
     console.log(response.data);

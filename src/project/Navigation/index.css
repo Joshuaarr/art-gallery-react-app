@@ -1,4 +1,38 @@
-.active {
-    background-color: #007bff; /* Set your desired highlight color */
-    color: #fff; /* Set your desired text color for the highlighted link */
+.list-group{
+  position: fixed;
+  bottom: 0px;
+  top: 74px;
+  left: 0px;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(218, 176, 200);
+}
+.list-group.list-group {
+  border-radius: 0;
+  display: flex;
+}
+
+.list-group .list-group-item{
+  border: none;
+  background-color: rgba(218, 176, 200);
+  color: #ffffff; 
+  font-size: 0.8em;
+  padding: 15px;
+  text-align: center;
+  height: 50px;
+}
+.list-group .list-group-item.active {
+    background-color: black; 
+  }
+
+
+  .list-group .header {
+    border: none;
+    color: #ffffff; 
+    padding: 15px;
+    text-align: center;
+    height: 100px;
   }

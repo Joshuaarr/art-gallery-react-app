@@ -32,27 +32,34 @@ function GallaryList() {
         
         {currentUser && (
             <>
-            <h1>{currentUser.username}'s Gallary List</h1>
+            <h3>{currentUser.username}'s Gallary List</h3>
             <div>
+                <div className="row">
+                <div className="col-8">
                 <input
                     type="text"
+                    className="form-control m-1"
                     placeholder="Enter new gallery name"
                     value={newGallaryName}
                     onChange={(e) => setNewGallaryName(e.target.value)}
                 />
-                <button onClick={createNewGallary}>Create Gallary</button>
+                </div>
+                <div className="col-4">
+                <button onClick={createNewGallary} className="btn btn-primary float-end m-1" style={{backgroundColor: "black", border: "none"}}>Create Gallary</button>
+                </div>
+                </div>
             </div>
-            <div className="list-group">
-            {gallaries.map((gallary) => (
-              <Link
-                key={gallary.gallaryID}
-                to={`/project/${currentUser.username}/gallary/${gallary}`}
-                className="list-group-item"
-              >
-                {gallary}
-              </Link>
-            ))}
-          </div>
+            <div className="profile-list-group m-1">
+                {gallaries.map((gallary) => (
+                <Link
+                    key={gallary.gallaryID}
+                    to={`/project/${currentUser.username}/gallary/${gallary}`}
+                    className="list-group-item"
+                >
+                    {gallary}
+                </Link>
+                ))}
+            </div>
           </>
         )}
       </div>

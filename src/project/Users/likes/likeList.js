@@ -39,7 +39,7 @@ const LikesList = () => {
   return (
     <div>
       <h3>Likes of {currentUser.username}</h3>
-      <ul className="list-group">
+      <ul className="profile-list-group">
         {likes.map((like, index) => (
           <li key={index} className="list-group-item">
             <Link to={`/project/details/${like.artworkID}`}>

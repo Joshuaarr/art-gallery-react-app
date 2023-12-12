@@ -1,0 +1,24 @@
+.profile-list-group{
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+
+}
+.profile-list-group.list-group {
+  border-radius: 0;
+  display: flex;
+}
+
+.profile-list-group .list-group-item{
+  border: none;
+  background-color: rgba(218, 176, 200, 0.6);
+  color: #ffffff; 
+  font-size: 0.8em;
+  padding: 15px;
+  text-align: center;
+  height: 50px;
+}
+
+.profile-btn-primary{
+  background-color: rgb(187, 135, 221, 0.8); 
+}

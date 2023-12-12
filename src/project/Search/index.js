@@ -44,7 +44,7 @@ function Search() {
       <h1>Search</h1>
       <button 
       onClick={() => navigate(`/project/search/${searchTerm}`)}
-       className="btn btn-primary float-end me-3">
+       className="btn btn-primary float-end me-3" style={{backgroundColor: "black", border: "none"}}>
         Search
       </button>
       <input 

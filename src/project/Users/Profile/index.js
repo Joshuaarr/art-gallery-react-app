@@ -5,6 +5,8 @@ import * as likesClient from "../likes/client";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as followsClient from "../follows/client";
+import GallaryList from "../Gallary/gallaryList";
+import "./index.css";
 function Profile() {
   const [user, setUser] = useState(null);
   const [likes, setLikes] = useState([]);
@@ -58,7 +60,7 @@ function Profile() {
     setPathnameKey(pathname);
   }, [pathname]);
   return (
-    <div>
+    <div className="container">
       {currentUser && currentUser._id !== currId && (
         <>
           {alreadyFollowing() ? (
@@ -84,33 +86,40 @@ function Profile() {
             </p>
             <p>Last Name: {user.lastName}</p>
             <Link to={`/project/account`}>
-              <button className="btn btn-primary">
+              <button className="btn btn-primary" style={{backgroundColor: "black", border: "none"}}>
                 Update Personal Information
               </button>
             </Link>
           </>
           ) : null}
-          <Link to={`/project/${user.username}/gallary`}>
-            <h3>Gallary</h3>
-          </Link>
+          <div className="mt-5"></div>
+          <GallaryList/>
+          <div className="row mt-5">
+          <div className="col-8">
+          <h3 className="">Likes</h3>
+          </div>
+          <div className="col-4">
           {currentUser && currId === currentUser._id ? (
             <Link to={`/project/likes`}>
-              <h3>Likes</h3>
+              <button className="btn btn-primary float-end" style={{backgroundColor: "black", border: "none"}}>
+                Go to All Likes
+              </button>
             </Link>
           ) : (
-            <h3>Likes</h3>
+            null
           )}
-          <ul className="list-group">
+          </div>
+          </div>
+          <div className="profile-list-group">
             {likes.slice(0, 10).map((like, index) => (
-              <li key={index} className="list-group-item">
-                <Link to={`/project/details/${like.artworkID}`}>
+              <Link key={index} className="list-group-item"
+                 to={`/project/details/${like.artworkID}`}>
                   {like.artworkID}
                 </Link>
-              </li>
             ))}
-          </ul>
+          </div>
           <h3>Followers</h3>
-          <div className="list-group">
+          <div className="profile-list-group">
             {followers.slice(0, 10).map((follows, index) => (
               <Link
                 key={index}
@@ -122,7 +131,7 @@ function Profile() {
             ))}
           </div>
           <h3>Following</h3>
-          <div className="list-group">
+          <div className="profile-list-group">
             {following.slice(0, 10).map((follows, index) => (
               <Link
                 key={index}

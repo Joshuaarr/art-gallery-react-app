@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 function UserList() {
   const [users, setUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null); // [1
+  const [currentUser, setCurrentUser] = useState(null); 
   const fetchUser = async () => {
     const user = await client.account();
     setCurrentUser(user);
@@ -26,7 +26,7 @@ function UserList() {
             {users.map((user) => (
               <Link
                 key={user._id}
-                to={`/project/users/${user._id}`}
+                to={`/project/profile/${user._id}`}
                 className="list-group-item"
               >
                 {user.username}
