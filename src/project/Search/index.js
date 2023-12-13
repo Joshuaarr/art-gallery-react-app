@@ -1,6 +1,7 @@
 import React, { useState, View, useEffect } from "react";
 import * as client from "../client";
 import { Link , useParams, useNavigate} from "react-router-dom";
+import "../Users/Gallary/index.css";
 function Search() {
   const { search } = useParams();
   const [searchTerm, setSearchTerm] = useState(search);
@@ -40,7 +41,7 @@ function Search() {
 
 
   return (
-    <div>
+    <div style={{maxWidth: "1000px"}}>
       <h1>Search</h1>
       <button 
       onClick={() => navigate(`/project/search/${searchTerm}`)}
@@ -49,29 +50,33 @@ function Search() {
       </button>
       <input 
         type="text"
-        className="form-control w-75"
+        className="form-control w-75 mb-4"
         placeholder="Search for art work's keyword..."
         onChange={(event) => {
           setSearchTerm(event.target.value);
         }}
       />
-
-      <h1>Results</h1>
-      <ul className="list-group">
+      <h2>Results for '{search}'</h2>
+      <div className="gallary-list-group">
         {results &&
           results.map((artwork, index) => (
-            <li key={index} className="list-group-item">
-              <Link to={`/project/details/${artwork.id}`}>
-                <h3>{artwork.title}</h3>
-                <img
-                  src={imageUrls[index]}
-                  alt={artwork.title}
-                  className="col-11"
-                />
-              </Link>
-            </li>
+            <Link to={`/project/details/${artwork.id}`} className="gallary-list-group card-title" >
+              <div className="row" style={{minHeight: "200px", backgroundColor: "rgba(255, 255, 255, 80%)", marginTop:"10px"}}>
+                <div className="col-3">
+                  <img
+                    src={imageUrls[index]}
+                    alt={artwork.alt_text}
+                    style={{ maxWidth: "240px", margin: "5px" }}
+                  />
+                </div>
+                <div className="col-8 ms-3 mt-3">
+                  <h5>{artwork.title}</h5>
+                  {artwork.thumbnail.alt_text}
+                </div>
+              </div>
+            </Link>
           ))}
-      </ul>
+      </div>
     </div>
   );
 }

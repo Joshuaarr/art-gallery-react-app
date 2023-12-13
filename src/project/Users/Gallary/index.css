@@ -1,0 +1,23 @@
+
+.gallary-btn-primary{
+  background-color: rgb(187, 135, 221, 0.8); 
+}
+
+
+.gallary-list-group.card-container {
+  max-width: 1300px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  margin-right: 30px;
+  gap: 30px;
+}
+
+.gallary-list-group.card-size {
+  align-items: center;
+}
+
+.card-title {
+  text-decoration: none;
+  color: rgb(55, 55, 169);
+}

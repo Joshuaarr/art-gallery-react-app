@@ -5,8 +5,10 @@ import * as likesClient from "../likes/client";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as followsClient from "../follows/client";
+import * as imageClient from "../../client";
 import GallaryList from "../Gallary/gallaryList";
 import "./index.css";
+import "../Gallary/index.css";
 function Profile() {
   const [user, setUser] = useState(null);
   const [likes, setLikes] = useState([]);
@@ -17,6 +19,7 @@ function Profile() {
   const { pathname } = useLocation();
   const [pathnameKey, setPathnameKey] = useState(pathname);
   const [currId, setCurrId] = useState(() => id || (currentUser ? currentUser._id : null));
+  const [imageUrls, setImageUrls] = useState([]);
   const fetchLikes = async () => {
     const likes = await likesClient.findArtsThatUserLikes(currId);
     setLikes(likes);
@@ -26,6 +29,24 @@ function Profile() {
       const user = await client.findUserById(currId);
       setUser(user);
   };
+
+  const fetchImageUrls = async () => {
+    try {
+      if (likes && likes.length > 0) {
+        const urls = await Promise.all(likes.map(like => imageClient.findImageByID(like.artworkID)));
+        console.log(urls);
+        setImageUrls(urls);
+      }
+    } catch (error) {
+      console.error('Error fetching image URLs:', error);
+    }
+  };
+
+
+
+
+
+
 
   const followUser = async () => {
     const status = await followsClient.userFollowsUser(currId);
@@ -54,6 +75,18 @@ function Profile() {
     fetchFollowers();
     fetchFollowing();
   }, [id, currentUser, pathnameKey]);
+
+  useEffect(() => {
+    fetchFollowers();
+    fetchFollowing();
+  }, [pathnameKey]);
+
+
+  useEffect(() => {
+    fetchImageUrls();
+  }, [likes]);
+
+
   
   useEffect(() => {
     setCurrId(id || (currentUser ? currentUser._id : null))
@@ -96,13 +129,13 @@ function Profile() {
           <GallaryList/>
           <div className="row mt-5">
           <div className="col-8">
-          <h3 className="">Likes</h3>
+          <h3 className="">Collections</h3>
           </div>
           <div className="col-4">
           {currentUser && currId === currentUser._id ? (
             <Link to={`/project/likes`}>
               <button className="btn btn-primary float-end" style={{backgroundColor: "black", border: "none"}}>
-                Go to All Likes
+                Go to All Collections
               </button>
             </Link>
           ) : (
@@ -110,20 +143,23 @@ function Profile() {
           )}
           </div>
           </div>
-          <div className="profile-list-group">
+          <div className="gallary-list-group card-container m-1">
             {likes.slice(0, 10).map((like, index) => (
-              <Link key={index} className="list-group-item"
-                 to={`/project/details/${like.artworkID}`}>
-                  {like.artworkID}
+              <Link key={index} className="gallary-list-group card-size card-title" to={`/project/details/${like.artworkID}`}>
+                <img
+                  key={index}
+                  src={imageUrls[index]}
+                  style={{ maxWidth: "250px", maxHeight: "220px", margin: "5px" }}
+                />
                 </Link>
             ))}
           </div>
           <h3>Followers</h3>
-          <div className="profile-list-group">
+          <div className="profile-list-group card-container">
             {followers.slice(0, 10).map((follows, index) => (
               <Link
                 key={index}
-                className="list-group-item"
+                className="profile-list-group card-size card-title"
                 to={`/project/profile/${follows.follower._id}`}
               >
                 {follows.follower.username}
@@ -131,11 +167,11 @@ function Profile() {
             ))}
           </div>
           <h3>Following</h3>
-          <div className="profile-list-group">
+          <div className="profile-list-group card-container">
             {following.slice(0, 10).map((follows, index) => (
               <Link
                 key={index}
-                className="list-group-item"
+                className="profile-list-group card-size card-title"
                 to={`/project/profile/${follows.followed._id}`}
               >
                 {follows.followed.username}

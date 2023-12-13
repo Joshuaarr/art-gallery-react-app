@@ -1,7 +1,7 @@
 .list-group{
   position: fixed;
   bottom: 0px;
-  top: 74px;
+  top: 75px;
   left: 0px;
   margin: 0;
   padding: 0;
@@ -19,10 +19,10 @@
   border: none;
   background-color: rgba(218, 176, 200);
   color: #ffffff; 
-  font-size: 0.8em;
+  font-size: 0.9em;
   padding: 15px;
   text-align: center;
-  height: 50px;
+  height: 60px;
 }
 .list-group .list-group-item.active {
     background-color: black; 

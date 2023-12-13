@@ -10,6 +10,15 @@ function Details() {
   const { artworkID } = useParams();
   const [imgURL, setImgURL] = useState('');
   const [likes, setLikes] = useState([]);
+  const [processedText, setProcessedText] = useState("no discription yet");
+
+  const convertDiscription = async () => {
+    const tempElement = document.createElement('div');
+    console.log(art);
+    tempElement.innerHTML = art.data.description;
+    setProcessedText(tempElement.textContent || tempElement.innerText);
+  }
+  
 
   const fetchUser = async () => {
     try {
@@ -37,19 +46,28 @@ function Details() {
     const result = await client.findArtByID(artworkID);
     setArt(result);
   };
+  const fetchImageURL = async () => {
+    try {
+      const imageURL = await client.findImageByID(artworkID);
+      setImgURL(imageURL);
+    } catch (error) {
+      console.error('Error fetching image URL:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchImageURL = async () => {
-      try {
-        const imageURL = await client.findImageByID(artworkID);
-        setImgURL(imageURL);
-      } catch (error) {
-        console.error('Error fetching image URL:', error);
-      }
-    };
-
     fetchImageURL();
   }, [artworkID]);
+
+  useEffect(() => {
+    fetchLikes();
+  }, [likes]);
+
+  useEffect(() => {
+    if(art !== null){
+      convertDiscription();
+    }
+  }, [art]);
 
   useEffect(() => {
     fetchUser();
@@ -58,38 +76,53 @@ function Details() {
   }, []);
 
   return (
-    <div>
+    <div className="mt-4 container-fluid" style={{maxWidth: "1000px"}}>
       {art && (
-        <div>
-           {currentUser && (
-            <button
-              onClick={currenUserLikesArt}
-              className="btn btn-warning float-end"
-            >
-              Like
-            </button>
-          )}
-          <h1>{art.title}</h1>
-          <img
-            src={imgURL}
-            alt={art.title}
-          />
-          <pre>{JSON.stringify(art, null, 2)}</pre>
-          <h2>Likes</h2>
-          <ul className="list-group">
-            {likes.map((like, index) => (
-              <li key={index} className="list-group-item">
-                {like.user.firstName} {like.user.lastName}
-                <Link to={`/project/users/${like.user._id}`}>
-                  @{like.user.username}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <div className="row">
+          <div className="col-8">
+              <h1>{art.title}</h1>
+              <img
+                src={imgURL}
+                alt={art.title}
+                className="img-fluid"
+              />
+              <h1>{art.data.title}</h1>
+              <h5 className="mt-5">
+              artist display: </h5>{art.data.artist_display}
+              <h5 className="mt-4">
+              place of origin: </h5>{art.data.place_of_origin}
+              <h5 className="mt-4">
+              description: </h5>{processedText}
+              <h5 className="mt-4">
+              source: </h5>{art.config.website_url}
+          </div>
+          <div className="col-4 mt-5">
+            {currentUser && (
+                  <button
+                    onClick={currenUserLikesArt}
+                    className="btn btn-primary"
+                    style={{backgroundColor: "black", border: "none"}}
+                  >
+                    Add to Collection
+                  </button>
+                )}
+
+            <h4 className="mt-5 ms-2 mb-4">Collectors ({likes.length}):</h4>
+            <ul>
+              {likes.slice(0, 10).map((like, index) => (
+                <ul key={index}>
+                  <Link className="profile-list-group card-size card-title" to={`/project/users/${like.user._id}`}>
+                    @{like.user.firstName} {like.user.lastName}
+                  </Link>
+                </ul>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
     </div>
   );
+  
 }
 
 export default Details;

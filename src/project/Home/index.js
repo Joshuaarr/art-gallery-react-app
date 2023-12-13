@@ -2,6 +2,7 @@ import * as galleryClient from "../Users/Gallary/client";
 import React, { useState, View, useEffect } from "react";
 import { Link , useParams, useNavigate} from "react-router-dom";
 import * as imageClient from "../client";
+import "../Users/Gallary/index.css";
 function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ function Home() {
   const [gallaries, setGallaries] = useState([]); 
   const [imageUrls, setImageUrls] = useState([]);
 
-  const [gallaryIDs, setGallaryIDs] = useState([]);
+  const [distinctGallaryIDs, setGallaryIDs] = useState([]);
   const fetchImageUrls = async () => {
     try {
       if (gallaries && gallaries.length > 0) {
@@ -50,7 +51,7 @@ function Home() {
       fetchImageUrls();
     }, [gallaries]);
     return (
-      <div >
+      <div className="me-5">
         <br />
         <h3>Search for artworks</h3>
         <button 
@@ -69,20 +70,24 @@ function Home() {
           />
           <br />
           <h3>Gallaries</h3>
-          <div className="profile-list-group m-1" style={{height: "200px"}}>
+          <div className="gallary-list-group card-container m-1">
               {gallaries.map((gallary, index) => (
               <Link
                   key={gallary.gallaryID}
                   to={`/project/${gallary.username}/gallary/${gallary.gallaryID}`}
-                  className="list-group-item"
+                  className="gallary-list-group card-size card-title"
               >
-                  {gallary.gallaryID}
-                  <img
-                    key={gallary.artworkID}
-                    src={imageUrls[index]}
-                    alt={`Artwork ${gallary.artworkID}`}
-                    style={{ maxWidth: "100px", maxHeight: "100px", margin: "5px" }}
+
+                <img
+                  key={gallary.artworkID}
+                  src={imageUrls[index]}
+                  alt={`Artwork ${gallary.artworkID}`}
+                  style={{ maxWidth: "250px", maxHeight: "220px", margin: "5px" }}
                 />
+                <p className="card-title ms-2">
+                  {gallary.gallaryID}
+                </p>
+                
               </Link>
               ))}
           </div>
