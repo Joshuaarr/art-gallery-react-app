@@ -37,7 +37,6 @@ function Details() {
   const fetchAlreadyCollected = async () => {
     try {
       const result = await alreadyCollected();
-      console.log(result);
       setIsAlreadyCollected(result);
     } catch (error) {
       console.error('Error fetching alreadyCollected:', error);
@@ -86,6 +85,7 @@ function Details() {
 
   useEffect(() => {
     fetchLikes();
+    fetchAlreadyCollected();
   }, [likes]);
 
   useEffect(() => {
@@ -101,7 +101,7 @@ function Details() {
   }, []);
 
   return (
-    <div className="mt-4 container-fluid" style={{maxWidth: "1000px"}}>
+    <div className="mt-4 ms-4 container-fluid" style={{maxWidth: "1000px"}}>
       {art && (
         <div className="row">
           <div className="col-8">

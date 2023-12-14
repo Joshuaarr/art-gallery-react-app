@@ -36,6 +36,11 @@ export const updateUser = async (id, user) => {
   return response.data;
 };
 
+export const editUser = async (id, user) => {
+  const response = await request.put(`${USERS_API}/edit/${id}`, user);
+  return response.data;
+};
+
 export const deleteUser = async (id) => {
   const response = await request.delete(`${USERS_API}/${id}`);
   return response.data;

@@ -26,6 +26,11 @@ export const createUserAddToGallary = async (userId, gallaryID, artworkID) => {
     return response.data;
   };
 
+  export const deleteGallaryByID = async (gallaryID) => {
+    const response = await axios.delete(`${GALLARIES_API}/delete/${gallaryID}`);
+    return response.data;
+  }
+
   export const findUserOneGallaryArtworks = async (userId, gallaryID) => {
     const response = await axios.get(`${USERS_API}/${userId}/gallaries/${gallaryID}`);
     return response.data;

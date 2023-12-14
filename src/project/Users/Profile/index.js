@@ -155,49 +155,52 @@ function Profile() {
           ) : null}
           <hr />
           <br />
-          <h3> Galleries </h3>
-          <div className="gallary-list-group card-container m-1">
-            {gallaries.map((gallary, index) => (
-              currentUser && currId === currentUser._id ?(
-                <>
-                  <Link
-                  key={gallary.gallaryID}
-                  to={`/project/gallary/${gallary.gallaryID}`}
-                  className="gallary-list-group card-size card-title">
+          {user.role === "CREATER" && (
+          <>
+            <h3> Galleries </h3>
+            <div className="gallary-list-group card-container m-1">
+              {gallaries.map((gallary, index) => (
+                currentUser && currId === currentUser._id ?(
+                  <>
+                    <Link
+                    key={gallary.gallaryID}
+                    to={`/project/gallary/${gallary.gallaryID}`}
+                    className="gallary-list-group card-size card-title">
 
-                  <img
-                    key={gallary.artworkID}
-                    src={imageUrls[index]}
-                    alt={`Artwork ${gallary.artworkID}`}
-                    style={{ maxWidth: "250px", maxHeight: "220px", margin: "5px" }}
-                  />
-                  <p className="card-title ms-2">
-                    {gallary.gallaryID}
-                  </p>
-                  </Link>
-                </>
-              ):(
-                <>
-                  <Link
-                  key={gallary.gallaryID}
-                  to={`/project/${currId}/gallary/${gallary.gallaryID}`}
-                  className="gallary-list-group card-size card-title">
+                    <img
+                      key={gallary.artworkID}
+                      src={imageUrls[index]}
+                      alt={`Artwork ${gallary.artworkID}`}
+                      style={{ maxWidth: "250px", maxHeight: "220px", margin: "5px" }}
+                    />
+                    <p className="card-title ms-2">
+                      {gallary.gallaryID}
+                    </p>
+                    </Link>
+                  </>
+                ):(
+                  <>
+                    <Link
+                    key={gallary.gallaryID}
+                    to={`/project/${currId}/gallary/${gallary.gallaryID}`}
+                    className="gallary-list-group card-size card-title">
 
-                  <img
-                    key={gallary.artworkID}
-                    src={imageUrls[index]}
-                    alt={`Artwork ${gallary.artworkID}`}
-                    style={{ maxWidth: "250px", maxHeight: "220px", margin: "5px" }}
-                  />
-                  <p className="card-title ms-2">
-                    {gallary.gallaryID}
-                  </p>
-                  </Link>
-                </>
-              )
-            ))}
+                    <img
+                      key={gallary.artworkID}
+                      src={imageUrls[index]}
+                      alt={`Artwork ${gallary.artworkID}`}
+                      style={{ maxWidth: "250px", maxHeight: "220px", margin: "5px" }}
+                    />
+                    <p className="card-title ms-2">
+                      {gallary.gallaryID}
+                    </p>
+                    </Link>
+                  </>
+                )
+              ))
+            }
         </div>
-
+        </>)}
           <div className="row mt-5">
           <div className="col-8">
           <h3 className="">Collections</h3>

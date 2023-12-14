@@ -42,7 +42,7 @@ const Gallary = () => {
   }, [currId, gallaryID]);
   
   return (
-    <div>
+    <div className="ms-4">
       {user && (
           <>
       <h1>{gallaryID}</h1>

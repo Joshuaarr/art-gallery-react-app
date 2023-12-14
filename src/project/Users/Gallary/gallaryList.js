@@ -19,17 +19,20 @@ function GallaryList() {
   const [distinctGallaryIDs, setGallaryIDs] = useState([]);
 
   const fetchImageUrls = async () => {
-    console.log("userID:", userID);
     try {
     if (gallaries && gallaries.length > 0) {
         const urls = await Promise.all(gallaries.map(gallary => imageClient.findImageByID(gallary.artworkID)));
-        console.log(urls);
         setImageUrls(urls);
     }
     } catch (error) {
     console.error('Error fetching image URLs:', error);
     }
   };
+
+  const deleteGallaryByID = async (gallaryID) => {
+    const deletedGallary = await client.deleteGallaryByID(gallaryID);
+    fetchGallaries();
+  }
 
   
   const fetchGallaries = async () => {
@@ -77,13 +80,13 @@ function GallaryList() {
       fetchImageUrls();
     }, [gallaries]);
   return (
-    <div>
+    <div className="ms-4 mt-2">
       
       {user && (
           <>
           <h3>{user.username}'s Gallary List</h3>
           <div>
-            {currentUser && userID === currentUser._id ?(
+            {currentUser && currId === currentUser._id ?(
               <>
                 <div className="row">
                   <div className="col-8">
@@ -101,10 +104,11 @@ function GallaryList() {
                 </div>
               </>) : (null)}
           </div>
-          <div className="gallary-list-group card-container m-1">
+          <div className="gallary-list-group m-1 card-container">
             {gallaries.map((gallary, index) => (
-              currentUser && userID === currentUser._id ?(
+              currentUser && currId === currentUser._id ?(
                 <>
+                <div className="gallary-list-group ">
                   <Link
                   key={gallary.gallaryID}
                   to={`/project/gallary/${gallary.gallaryID}`}
@@ -116,10 +120,18 @@ function GallaryList() {
                     alt={`Artwork ${gallary.artworkID}`}
                     style={{ maxWidth: "250px", maxHeight: "220px", margin: "5px" }}
                   />
-                  <p className="card-title ms-2">
+                  <p className="card-title ms-2 card-size">
                     {gallary.gallaryID}
                   </p>
                   </Link>
+                  <botton
+                    className="btn btn-danger ms-2"
+                    style={{border: "none"}}
+                    onClick={() => deleteGallaryByID(gallary.gallaryID)}
+                  >
+                    Delete Gallary
+                  </botton>
+                  </div>
                 </>
               ):(
                 <>

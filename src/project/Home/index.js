@@ -15,7 +15,6 @@ function Home() {
     try {
       if (gallaries && gallaries.length > 0) {
         const urls = await Promise.all(gallaries.map(gallary => imageClient.findImageByID(gallary.artworkID)));
-        console.log(urls);
         setImageUrls(urls);
       }
     } catch (error) {
@@ -32,7 +31,6 @@ function Home() {
       const fetchedGallaries = await Promise.all(
         distinctGallaryIDs.map(async (gallaryID) => {
           const gallary = await galleryClient.findOneGallery(gallaryID);
-          console.log(gallary);
           return gallary;
         })
       );
@@ -51,7 +49,7 @@ function Home() {
       fetchImageUrls();
     }, [gallaries]);
     return (
-      <div className="me-5">
+      <div className="ms-4">
         <br />
         <h3>Search for artworks</h3>
         <button 

@@ -41,7 +41,7 @@ function Search() {
 
 
   return (
-    <div style={{maxWidth: "1000px"}}>
+    <div style={{maxWidth: "1000px"}} className="ms-4">
       <h1>Search</h1>
       <button 
       onClick={() => navigate(`/project/search/${searchTerm}`)}

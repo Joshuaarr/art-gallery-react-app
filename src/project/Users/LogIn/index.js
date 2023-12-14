@@ -13,7 +13,6 @@ function LogIn() {
     try {
       const credentials = { username: username, password: password };
       const user = await client.login(credentials);
-      console.log('User received:', user);
       dispatch(setCurrentUser(user));
       navigate("/project/account");
       window.location.reload(true);

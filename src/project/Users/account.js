@@ -32,7 +32,7 @@ function Account() {
   };
 
   return (
-    <div>
+    <div className="ms-4">
       <h1>Account</h1>
       {user && (
         <div>
@@ -62,12 +62,12 @@ function Account() {
           <p>Role:</p>
           <select
             className="form-control mt-1 w-100 mb-3"
+            value={user.role}
             onChange={(e) => setUser({ ...user, role: e.target.value })}
           >
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>
-            <option value="FACULTY">Faculty</option>
-            <option value="STUDENT">Student</option>
+            <option value="CREATER">Creater</option>
           </select>
           <button onClick={updateUser} className="btn btn-primary">
             Update

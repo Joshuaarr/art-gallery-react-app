@@ -31,6 +31,10 @@ function Navigation() {
     fetchUser();
   }, [location.pathname]);
 
+  useEffect(() => {
+    fetchUser();
+  }, [user]);
+
 
   return (
     <div className="list-group">
@@ -66,9 +70,12 @@ function Navigation() {
         <NavLink to={`/project/likes`} className={`list-group-item ${location.pathname.includes(`likes`) && "active"}`}>
           Collection
         </NavLink>
-        <NavLink to={`/project/gallary`} className={`list-group-item ${location.pathname.includes(`gallary`) && "active"}`}>
+       {user.role === "CREATER" && (
+          <NavLink to={`/project/gallary`} className={`list-group-item ${location.pathname.includes(`gallary`) && "active"}`}>
           Gallary
-        </NavLink>
+          </NavLink>
+          )}
+        
         </>
       )}
        {user && user.role === "ADMIN" && (<NavLink to={`/project/users`} 

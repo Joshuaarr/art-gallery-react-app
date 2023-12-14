@@ -93,6 +93,7 @@ const LikesList = () => {
                         </option>
                       ))}
                     </select>
+                    {currentUser.role === "CREATER" && (
                     <button
                       className="btn btn-primary ms-2 mt-5"
                       style={{ backgroundColor: "black", border: "none", maxWidth: "150px", height: "50px" }}
@@ -100,7 +101,7 @@ const LikesList = () => {
                       disabled={!selectedGalleries[like.artworkID]}
                     >
                       Add to Gallery
-                    </button>
+                    </button>)}
                     <button
                       className="btn btn-primary mt-5 ms-5"
                       style={{ backgroundColor: "black", border: "none", maxWidth: "250px", height: "50px" }}

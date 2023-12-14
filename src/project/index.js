@@ -27,7 +27,7 @@ function Project(){
               Own Gallary
             </div>
           </div>
-          <div className="row" style={{ marginTop: '100px' }}>
+          <div className="row" style={{ marginTop: '75px', paddingTop: '25px' }}>
             <div className="col-1" style={{ minWidth: '100px'}}>
             <Navigation />
             </div>

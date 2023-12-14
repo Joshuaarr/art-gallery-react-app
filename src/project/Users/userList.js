@@ -55,7 +55,7 @@ function UserList() {
 
   const updateUser = async () => {
     try {
-      const status = await client.updateUser(selectedUser._id, selectedUser);
+      const status = await client.editUser(selectedUser._id, selectedUser);
       setUsers(users.map((u) => (u._id === selectedUser._id ? selectedUser : u)));
       resetForm();
     } catch (err) {
@@ -76,26 +76,12 @@ function UserList() {
   }, [users, selectedUser]); 
 
   return (
-    <div className="ms-5 mt-2">
+    <div className="ms-4 mt-3">
       {currentUser && currentUser.role === "ADMIN" && (
         <>
           <h2>Manage Users</h2>
           <hr />
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <table className="table">
+          <table className="table" >
         <thead>
           <tr>
             <th>Username and Password</th>
@@ -151,8 +137,7 @@ function UserList() {
               >
                 <option value="USER">User</option>
                 <option value="ADMIN">Admin</option>
-                <option value="FACULTY">Faculty</option>
-                <option value="STUDENT">Student</option>
+                <option value="CREATER">Creater</option>
               </select>
             </td>
             <td className="text-nowrap">
@@ -171,7 +156,9 @@ function UserList() {
           {users.map((user) => (
             <tr key={user._id}>
               <td>
-                <Link to={`/project/account/${user._id}`}>{user.username}</Link>
+                <Link 
+                className="user-list-group card-size group-item"
+                to={`/project/account/${user._id}`}>{user.username}</Link>
               </td>
               <td>{user.firstName}</td>
               <td>{user.lastName}</td>
@@ -188,13 +175,6 @@ function UserList() {
           ))}
         </tbody>
       </table>
-
-
-
-
-
-
-
 
         </>
       )}

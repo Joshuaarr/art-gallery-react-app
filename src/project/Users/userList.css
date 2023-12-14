@@ -1,6 +1,6 @@
 
 
-.profile-list-group .list-group-item{
+.user-list-group .list-group-item{
     margin-top: 10px;
     border: none;
     background-color: rgba(94, 23, 141, 0.5);
@@ -12,12 +12,12 @@
     width: 150px;
   }
   
-  .profile-btn-primary{
+  .user-btn-primary{
     background-color: rgb(187, 135, 221, 0.8); 
   }
   
   
-  .profile-list-group.card-container {
+  .user-list-group.card-container {
     max-width: 1300px;
     display: flex;
     flex-wrap: wrap;
@@ -26,12 +26,16 @@
     gap: 30px;
   }
   
-  .profile-list-group.card-size {
-    background-color: rgba(94, 23, 141, 0.5);
+  .user-list-group.card-size {
     align-items: center;
     text-decoration: none;
-    padding: 10px;
     color: #ffffff; 
     text-align: center;
     margin: 5px;
+    padding-top: 10px;
+  }
+
+  .user-list-group.group-item {
+    text-decoration: none;
+    color: black;
   }
