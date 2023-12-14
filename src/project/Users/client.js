@@ -5,7 +5,7 @@ const request = axios.create({
 });
 
 const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:4000";
-const USERS_API = `${API_BASE}/api/users`;
+const USERS_API = `${API_BASE}/users`;
 
 export const login = async (credentials) => {
   const response = await request.post(`${USERS_API}/login`, credentials);
