@@ -1,7 +1,5 @@
 import axios from "axios";
-
-const API_BASE = "http://localhost:4000/api";
-
+const API_BASE = process.env.REACT_APP_API_BASE;
 const USERS_API = `${API_BASE}/users`;
 const GALLARIES_API = `${API_BASE}/gallaries`;
 

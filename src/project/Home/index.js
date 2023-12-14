@@ -85,13 +85,9 @@ function Home() {
                 <p className="card-title ms-2">
                   {gallary.gallaryID}
                 </p>
-                
               </Link>
               ))}
           </div>
-
-
-
       </div>
     );
   }
