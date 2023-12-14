@@ -11,14 +11,38 @@ function Details() {
   const [imgURL, setImgURL] = useState('');
   const [likes, setLikes] = useState([]);
   const [processedText, setProcessedText] = useState("no discription yet");
+  const [isAlreadyCollected, setIsAlreadyCollected] = useState(false);
 
   const convertDiscription = async () => {
     const tempElement = document.createElement('div');
-    console.log(art);
     tempElement.innerHTML = art.data.description;
     setProcessedText(tempElement.textContent || tempElement.innerText);
   }
-  
+
+
+  const alreadyCollected = () => {
+    const result = likes.some((like) => {
+      return (like.user._id === currentUser._id && like.artworkID === artworkID);
+    });
+    return result;
+  };
+
+  const cancelCollected = async () => {
+    const status = await likesClient.deleteUserLikesArt(currentUser._id, artworkID);
+    fetchLikes();
+    fetchAlreadyCollected();
+  };
+
+
+  const fetchAlreadyCollected = async () => {
+    try {
+      const result = await alreadyCollected();
+      console.log(result);
+      setIsAlreadyCollected(result);
+    } catch (error) {
+      console.error('Error fetching alreadyCollected:', error);
+    }
+  };
 
   const fetchUser = async () => {
     try {
@@ -40,6 +64,7 @@ function Details() {
       artworkID
     );
     setLikes([_likes, ...likes]);
+    fetchAlreadyCollected();
   };
 
   const fetchArt = async () => {
@@ -97,21 +122,38 @@ function Details() {
               source: </h5>{art.config.website_url}
           </div>
           <div className="col-4 mt-5">
+            {!currentUser && (
+               <Link className="profile-list-group card-title" to={`/project/signup`}>
+              <button
+              className="btn btn-primary"
+              style={{backgroundColor: "black", border: "none"}}
+            >
+              Add to Collection
+            </button>
+            </Link>
+            )}
+
             {currentUser && (
-                  <button
-                    onClick={currenUserLikesArt}
-                    className="btn btn-primary"
-                    style={{backgroundColor: "black", border: "none"}}
-                  >
-                    Add to Collection
-                  </button>
-                )}
+               isAlreadyCollected ? (
+                <button onClick={cancelCollected} className=" ms-2 btn btn-primary"
+                style={{backgroundColor: "black", border: "none"}}>
+                  Remove Collection
+                </button>
+              ) : (
+                <button onClick={currenUserLikesArt} className="ms-2 btn btn-primary"
+                style={{backgroundColor: "black", border: "none"}}>
+                  Add to collection
+                </button>
+              ))}
+            
+
+
 
             <h4 className="mt-5 ms-2 mb-4">Collectors ({likes.length}):</h4>
             <ul>
               {likes.slice(0, 10).map((like, index) => (
                 <ul key={index}>
-                  <Link className="profile-list-group card-size card-title" to={`/project/users/${like.user._id}`}>
+                  <Link className="profile-list-group card-size card-title" to={`/project/profile/${like.user._id}`}>
                     @{like.user.firstName} {like.user.lastName}
                   </Link>
                 </ul>

@@ -32,10 +32,10 @@ function Home() {
       const fetchedGallaries = await Promise.all(
         distinctGallaryIDs.map(async (gallaryID) => {
           const gallary = await galleryClient.findOneGallery(gallaryID);
+          console.log(gallary);
           return gallary;
         })
       );
-      console.log(fetchedGallaries);
       setGallaries(fetchedGallaries);
     } catch (error) {
       console.error("Error fetching gallaries:", error);
@@ -74,7 +74,7 @@ function Home() {
               {gallaries.map((gallary, index) => (
               <Link
                   key={gallary.gallaryID}
-                  to={`/project/${gallary.username}/gallary/${gallary.gallaryID}`}
+                  to={`/project/${gallary.user}/gallary/${gallary.gallaryID}`}
                   className="gallary-list-group card-size card-title"
               >
 

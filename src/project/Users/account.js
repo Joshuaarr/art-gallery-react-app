@@ -37,43 +37,57 @@ function Account() {
       {user && (
         <div>
           <p>Username: {user.username}</p>
+          <p>Email:</p>
           <input
             type="email"
-            className="form-control"
+            className="form-control mb-3"
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e.target.value })}
           />
+          <p>First Name:</p>
           <input
             type="text"
-            className="form-control"
+            className="form-control mb-3"
             value={user.firstName}
             onChange={(e) => setUser({ ...user, firstName: e.target.value })}
           />
+          <p>Last Name:</p>
           <input
             type="text"
-            className="form-control"
+            className="form-control mb-3"
             value={user.lastName}
             onChange={(e) => setUser({ ...user, lastName: e.target.value })}
           />
+
+          <p>Role:</p>
+          <select
+            className="form-control mt-1 w-100 mb-3"
+            onChange={(e) => setUser({ ...user, role: e.target.value })}
+          >
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+            <option value="FACULTY">Faculty</option>
+            <option value="STUDENT">Student</option>
+          </select>
           <button onClick={updateUser} className="btn btn-primary">
             Update
           </button>
-          <button onClick={signout} className="btn btn-danger">
+          <button onClick={signout} className="btn btn-danger ms-3">
             Sign Out
           </button>
           <button
               onClick={() => deleteUser(user._id)}
-              className="btn btn-danger"
+              className="btn btn-danger ms-3"
             >
-              Delete
+              Delete Account
             </button>
           {user.role === "ADMIN" && (
-            <Link to="/project/users" className="btn btn-warning">
+            <Link to="/project/users" className="btn btn-warning ms-3">
               Users
             </Link>
           )}
-          <Link to={`/project/profile/${user._id}`} className="btn btn-warning">
-            Profile
+          <Link to={`/project/profile/${user._id}`} className="btn btn-warning ms-3">
+            Nav to Profile
           </Link>
         </div>
       )}

@@ -40,3 +40,14 @@ export const deleteUser = async (id) => {
   const response = await request.delete(`${USERS_API}/${id}`);
   return response.data;
 };
+
+export const signup = async (user) => {
+  const response = await request.post(`${USERS_API}/signup`, user);
+  return response.data;
+};
+
+
+export const createUser = async (user) => {
+  const response = await request.post(`${USERS_API}/create`, user);
+  return response.data;
+};

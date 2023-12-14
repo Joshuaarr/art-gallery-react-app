@@ -66,7 +66,7 @@ function Navigation() {
         <NavLink to={`/project/likes`} className={`list-group-item ${location.pathname.includes(`likes`) && "active"}`}>
           Collection
         </NavLink>
-        <NavLink to={`/project/${user.username}/gallary`} className={`list-group-item ${location.pathname.includes(`${user.username}/gallary`) && "active"}`}>
+        <NavLink to={`/project/gallary`} className={`list-group-item ${location.pathname.includes(`gallary`) && "active"}`}>
           Gallary
         </NavLink>
         </>

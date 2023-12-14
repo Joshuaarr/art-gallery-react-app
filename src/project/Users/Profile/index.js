@@ -1,15 +1,43 @@
 import React from "react";
-import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation, Route, Routes } from "react-router-dom";
 import * as client from "../client";
 import * as likesClient from "../likes/client";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as followsClient from "../follows/client";
 import * as imageClient from "../../client";
-import GallaryList from "../Gallary/gallaryList";
+import * as gallaryClient from "../Gallary/client";
 import "./index.css";
 import "../Gallary/index.css";
 function Profile() {
+
+
+
+  const [gallaries, setGallaries] = useState([]); 
+  const [gImageUrls, setGImageUrls] = useState([]);
+  const [distinctGallaryIDs, setGallaryIDs] = useState([]);
+  const fetchGallaries = async () => {
+    try {
+      // Fetch distinct gallaryIDs
+      const distinctGallaryIDs = await gallaryClient.findGallariesThatUserCreates(currId);
+      setGallaryIDs(distinctGallaryIDs);
+
+      // Fetch details for each gallaryID
+      const fetchedGallaries = await Promise.all(
+        distinctGallaryIDs.map(async (gallaryID) => {
+          const gallary = await gallaryClient.findOneGallery(gallaryID);
+          return gallary;
+        })
+      );
+      setGallaries(fetchedGallaries);
+    } catch (error) {
+      console.error("Error fetching gallaries:", error);
+    }
+  };
+
+
+
+
   const [user, setUser] = useState(null);
   const [likes, setLikes] = useState([]);
   const [followers, setFollowers] = useState([]);
@@ -34,8 +62,10 @@ function Profile() {
     try {
       if (likes && likes.length > 0) {
         const urls = await Promise.all(likes.map(like => imageClient.findImageByID(like.artworkID)));
-        console.log(urls);
         setImageUrls(urls);
+
+        const gurls = await Promise.all(gallaries.map(gallary => imageClient.findImageByID(gallary.artworkID)));
+        setGImageUrls(gurls);
       }
     } catch (error) {
       console.error('Error fetching image URLs:', error);
@@ -43,16 +73,13 @@ function Profile() {
   };
 
 
-
-
-
-
-
   const followUser = async () => {
     const status = await followsClient.userFollowsUser(currId);
+    fetchFollowers();
   };
   const unfollowUser = async () => {
     const status = await followsClient.userUnfollowsUser(currId);
+    fetchFollowers();
   };
   const fetchFollowers = async () => {
     const followers = await followsClient.findFollowersOfUser(currId);
@@ -61,7 +88,6 @@ function Profile() {
   const fetchFollowing = async () => {
     const following = await followsClient.findFollowedUsersByUser(currId);
     setFollowing(following);
-    console.log(following);
   };
   const alreadyFollowing = () => {
     return followers.some((follows) => {
@@ -74,17 +100,19 @@ function Profile() {
     fetchLikes();
     fetchFollowers();
     fetchFollowing();
+    fetchGallaries();
   }, [id, currentUser, pathnameKey]);
 
   useEffect(() => {
     fetchFollowers();
     fetchFollowing();
+    fetchGallaries();
   }, [pathnameKey]);
 
 
   useEffect(() => {
     fetchImageUrls();
-  }, [likes]);
+  }, [likes, gallaries]);
 
 
   
@@ -93,7 +121,7 @@ function Profile() {
     setPathnameKey(pathname);
   }, [pathname]);
   return (
-    <div className="container">
+    <div className="container ms-2 mt-2">
       {currentUser && currentUser._id !== currId && (
         <>
           {alreadyFollowing() ? (
@@ -125,8 +153,51 @@ function Profile() {
             </Link>
           </>
           ) : null}
-          <div className="mt-5"></div>
-          <GallaryList/>
+          <hr />
+          <br />
+          <h3> Galleries </h3>
+          <div className="gallary-list-group card-container m-1">
+            {gallaries.map((gallary, index) => (
+              currentUser && currId === currentUser._id ?(
+                <>
+                  <Link
+                  key={gallary.gallaryID}
+                  to={`/project/gallary/${gallary.gallaryID}`}
+                  className="gallary-list-group card-size card-title">
+
+                  <img
+                    key={gallary.artworkID}
+                    src={imageUrls[index]}
+                    alt={`Artwork ${gallary.artworkID}`}
+                    style={{ maxWidth: "250px", maxHeight: "220px", margin: "5px" }}
+                  />
+                  <p className="card-title ms-2">
+                    {gallary.gallaryID}
+                  </p>
+                  </Link>
+                </>
+              ):(
+                <>
+                  <Link
+                  key={gallary.gallaryID}
+                  to={`/project/${currId}/gallary/${gallary.gallaryID}`}
+                  className="gallary-list-group card-size card-title">
+
+                  <img
+                    key={gallary.artworkID}
+                    src={imageUrls[index]}
+                    alt={`Artwork ${gallary.artworkID}`}
+                    style={{ maxWidth: "250px", maxHeight: "220px", margin: "5px" }}
+                  />
+                  <p className="card-title ms-2">
+                    {gallary.gallaryID}
+                  </p>
+                  </Link>
+                </>
+              )
+            ))}
+        </div>
+
           <div className="row mt-5">
           <div className="col-8">
           <h3 className="">Collections</h3>

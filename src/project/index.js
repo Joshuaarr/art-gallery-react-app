@@ -45,8 +45,10 @@ function Project(){
                 <Route path="/account" element={<Account />} />
                 <Route path="/likes" element={<LikesList />} />
                 <Route path="/users" element={<UserList />} />
-                <Route path="/:username/gallary" element={<GallaryList />} />
-                <Route path="/:username/gallary/:gallaryID" element={<Gallary />} />
+                <Route path="/gallary" element={<GallaryList />} />
+                <Route path="/:userID/gallary" element={<GallaryList />} />
+                <Route path="/:userID/gallary/:gallaryID" element={<Gallary />} />
+                <Route path="/gallary/:gallaryID" element={<Gallary />} />
               </Routes>
             </div>
           </div>
